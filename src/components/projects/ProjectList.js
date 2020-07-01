@@ -1,19 +1,23 @@
-import React from 'react';
+import React, { useContext, useEffect } from 'react';
 import Project from './Project';
+import projectContext from '../../context/projects/projectContext';
 
 const ProjectList = () => {
+  // Extract projects from projects state
+  const projectsContext = useContext(projectContext);
+  const { projects, getProjects } = projectsContext;
 
-  // Dummy content to test
-  const projects = [
-    {key: 1, name: 'Ecommerce'},
-    {key: 2, name: 'Log and ROI'},
-    {key: 3, name: 'Tesla Cybertruck'}
-  ];
+  useEffect(() => {
+    getProjects();
+  }, []);
+
+  // Control project list
+  if (projects.length === 0) return null;
 
   return ( 
     <ul className='listado-proyectos'>
       {projects.map(project => (
-        <Project key={project.key} project={project} />
+        <Project key={project.id} project={project} />
       ))}
     </ul>
    );
