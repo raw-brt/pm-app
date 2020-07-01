@@ -74,6 +74,10 @@ a {
 .btn-secundario {
   background-color: var(--gris1);
 }
+
+.btn-eliminar {
+  background-color: white;
+}
 .btn-block {
   display: block;
   width: 100%;
@@ -159,6 +163,7 @@ aside  {
 .formulario {
   background-color: var(--gris3);
   padding: 4rem;
+  margin-bottom: 2rem;
 }
 .formulario form {
   max-width: 600px;
@@ -183,8 +188,6 @@ aside  {
 .contenedor-tareas {
   padding: 4rem;
 }
-
-
 
 .listado-tareas {
   max-width: 600px;
@@ -262,8 +265,6 @@ aside  {
   background-color: rgb(170, 0, 0);
   color: var(--blanco);
 }
-
-
 
 .tarea-enter,
 .proyecto-enter {

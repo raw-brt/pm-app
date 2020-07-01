@@ -1,14 +1,19 @@
-import React, { useState, Fragment } from 'react';
+import React, { useState, useContext, Fragment } from 'react';
+import projectContext from '../../context/projects/projectContext';
 
 const NewProject = () => {
-  const [projectName, setProjectName] = useState({projectName: ''});
+  const projectsContext = useContext(projectContext);
+  const { newProjectForm, toggleForm } = projectsContext;
+  const [project, setProject] = useState({name: ''});
 
   const handleChange = event => {
-    setProjectName({
-      ...projectName,
-      [event.target.name]: event.target.name
+    setProject({
+      ...project,
+      [event.target.name]: event.target.value
     })
   };
+
+  const { name } = project;
 
   const handleSubmit = event => {
     event.preventDefault();
@@ -16,6 +21,8 @@ const NewProject = () => {
     // Form validation
 
     // Pass to action
+
+    // Reset form
   }
 
 
@@ -24,25 +31,35 @@ const NewProject = () => {
       <button
         type='button'
         className='btn btn-block btn-primario'
-      >Create project</button>
-      <form
-        className='formulario-nuevo-proyecto'
-        onSubmit={handleSubmit}
+        onClick={() => toggleForm()}
       >
-        <input
-          type='text'
-          className='input-text'
-          placeholder='Project name'
-          name='name'
-          value={projectName.name}
-          onChange={handleChange}
-        />
-        <input
-          type='submit'
-          className='btn btn-primario btn-block'
-          value='Create new project'
-        />
-      </form>
+        Create project
+      </button>
+
+      { newProjectForm
+          ? 
+            (
+              <form
+                className='formulario-nuevo-proyecto'
+                onSubmit={handleSubmit}
+              >
+                <input
+                  type='text'
+                  className='input-text'
+                  placeholder='Project name'
+                  name='name'
+                  value={name}
+                  onChange={handleChange}
+                />
+                <input
+                  type='submit'
+                  className='btn btn-primario btn-block'
+                  value='Create new project'
+                />
+              </form>
+            )
+          : null
+      }
     </Fragment>
    );
 }
