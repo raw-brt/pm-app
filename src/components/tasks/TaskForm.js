@@ -1,9 +1,14 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
+import projectContext from '../../context/projects/projectContext';
 
 const TaskForm = () => {
+  const projectsContext = useContext(projectContext);
+  const { actualProject } = projectsContext;
   const [task, setTask] = useState({
     name: ''
   });
+
+  if (!actualProject) return null;
 
   const { name } = task;
 

@@ -6,13 +6,13 @@ import {
   GET_PROJECTS,
   ADD_PROJECT,
   VALIDATE_PROJECT_FORM,
-  ACTUAL_PROJECT
+  ACTUAL_PROJECT,
+  DELETE_PROJECT
 } from "../../types";
 import { v4 as uuid } from "uuid";
 
 const ProjectState = (props) => {
-  // Dummy content to test
-  const projects = [
+  const projects = [                        // Dummy content to test
     { id: 1, name: "Ecommerce" },
     { id: 2, name: "Log and ROI" },
     { id: 3, name: "Tesla Cybertruck" },
@@ -56,9 +56,16 @@ const ProjectState = (props) => {
     });
   };
 
-  const handleActualProject = projectId => {
+  const handleActualProject = projectId => {    // Handle selected project
     dispatch({
       type: ACTUAL_PROJECT,
+      payload: projectId
+    });
+  };
+
+  const deleteProject = projectId => {    // Delete project
+    dispatch({
+      type: DELETE_PROJECT,
       payload: projectId
     });
   };
@@ -76,7 +83,8 @@ const ProjectState = (props) => {
         getProjects,
         addProject,
         handleFormError,
-        handleActualProject
+        handleActualProject,
+        deleteProject
       }}
     >
       {props.children}

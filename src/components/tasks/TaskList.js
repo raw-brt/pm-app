@@ -4,7 +4,10 @@ import projectContext from '../../context/projects/projectContext';
 
 const TaskList = () => {
   const projectsContext = useContext(projectContext);
-  const { actualProject } = projectsContext;
+  const { actualProject, deleteProject } = projectsContext;
+
+  if (!actualProject) return <h2>Select a project</h2>;
+  const [project] = actualProject;
 
   const projectTasks = [
     {id: 1, name: 'Choose platform', status: true },
@@ -13,10 +16,14 @@ const TaskList = () => {
     {id: 4, name: 'First version', status: false }
   ];
 
+  const handleDeleteProject = () => {
+    deleteProject(project.id);
+  };
+
   return (
     <Fragment> 
         {actualProject === null
-          ? <h2>No project selected</h2>
+          ? <h2>Select one project in the sidebar</h2>
           : (
               <Fragment>
                 <h2>{actualProject[0].name}</h2>
@@ -29,6 +36,7 @@ const TaskList = () => {
                 <button
                   type='button'
                   className='btn btn-eliminar'
+                  onClick={() => handleDeleteProject()}
                 >
                   Delete project &times;
                 </button>
