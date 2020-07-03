@@ -7,15 +7,28 @@ const Task = ({ task }) => {
   const { actualProject } = projectsContext;
 
   const taskContext = useContext(tasksContext);
-  const { deleteTask, getProjectTasks } = taskContext;
+  const { deleteTask, getProjectTasks, changeTaskStatus, setSelectedTask } = taskContext;
 
   const removeTask = taskId => {
     deleteTask(taskId);
     getProjectTasks(actualProject[0].id);
   };
 
+  const handleStatusChange = task => {
+    if (task.status) {
+      task.status = false;
+    } else {
+      task.status = true;
+    }
+    changeTaskStatus(task);
+  }
+
+  const handleSelectTask = task => {
+    setSelectedTask(task);
+  };
+
   return ( 
-    <li className='tarea sombre'>
+    <li className='tarea sombra'>
       <p>{task.name}</p>
       <div className='estado'>
         { task.status
@@ -24,6 +37,7 @@ const Task = ({ task }) => {
                 <button
                   type='button'
                   className='completo'
+                  onClick={() => handleStatusChange(task)}
                 >
                   Done
                 </button>
@@ -33,6 +47,7 @@ const Task = ({ task }) => {
                 <button
                   type='button'
                   className='incompleto'
+                  onClick={() => handleStatusChange(task)}
                 >
                   In progress
                 </button>
@@ -43,6 +58,7 @@ const Task = ({ task }) => {
         <button
           type='button'
           className='btn btn-primario'
+          onClick={() => handleSelectTask(task)}
         >
           Edit
         </button>

@@ -6,6 +6,9 @@ import {
   ADD_TASK,
   VALIDATE_TASK,
   DELETE_TASK,
+  TASK_STATUS,
+  SELECTED_TASK,
+  UPDATE_TASK
 } from "../../types";
 
 const TasksState = (props) => {
@@ -23,6 +26,7 @@ const TasksState = (props) => {
       { id: 10, name: "Mockups", status: false, projectId: 2 },
     ],
     selectedProjectTasks: null,
+    selectedTask: null,
     taskError: false,
   };
 
@@ -31,14 +35,14 @@ const TasksState = (props) => {
   const getProjectTasks = (projectId) => {
     dispatch({
       type: GET_PROJECT_TASKS,
-      payload: projectId,
+      payload: projectId
     });
   };
 
   const addTask = (task) => {
     dispatch({
       type: ADD_TASK,
-      payload: task,
+      payload: task
     });
   };
 
@@ -48,10 +52,31 @@ const TasksState = (props) => {
     });
   };
 
-  const deleteTask = taskId => {
+  const deleteTask = (taskId) => {
     dispatch({
       type: DELETE_TASK,
       payload: taskId
+    });
+  };
+
+  const changeTaskStatus = (task) => {
+    dispatch({
+      type: TASK_STATUS,
+      payload: task
+    });
+  };
+
+  const setSelectedTask = (task) => {
+    dispatch({
+      type: SELECTED_TASK,
+      payload: task
+    });
+  };
+
+  const updateTask = (task) => {
+    dispatch({
+      type: UPDATE_TASK,
+      payload: task
     });
   };
 
@@ -61,10 +86,14 @@ const TasksState = (props) => {
         tasks: state.tasks,
         selectedProjectTasks: state.selectedProjectTasks,
         taskError: state.taskError,
+        selectedTask : state.selectedTask,
         getProjectTasks,
         addTask,
         validateTask,
-        deleteTask
+        deleteTask,
+        changeTaskStatus,
+        setSelectedTask,
+        updateTask
       }}
     >
       {props.children}

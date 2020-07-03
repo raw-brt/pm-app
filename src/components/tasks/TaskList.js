@@ -2,6 +2,7 @@ import React, { useContext, Fragment } from 'react';
 import Task from './Task';
 import projectContext from '../../context/projects/projectContext';
 import tasksContext from '../../context/tasks/tasksContext';
+import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 const TaskList = () => {
   const projectsContext = useContext(projectContext);
@@ -25,8 +26,8 @@ const TaskList = () => {
                 <h2>{actualProject[0].name}</h2>
                 <ul className='listado-tareas'>
                   {selectedProjectTasks.length > 0
-                    ? selectedProjectTasks.map(task => (<Task key={task.id} task={task} />))
-                    : (<li className='tarea'>There are no tasks for this project</li>)
+                    ? selectedProjectTasks.map(task => <Task key={task.id} task={task} />)
+                    : <li className='tarea'>There are no tasks for this project</li>
                   }
                 </ul>
                 <button
