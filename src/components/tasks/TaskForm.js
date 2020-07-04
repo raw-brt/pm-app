@@ -13,8 +13,7 @@ const TaskForm = () => {
     taskError, 
     getProjectTasks, 
     addTask, 
-    validateTask, 
-    setSelectedTask,
+    validateTask,
     updateTask
    } = taskContext;
 
