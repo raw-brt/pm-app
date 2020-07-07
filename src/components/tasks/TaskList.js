@@ -2,7 +2,6 @@ import React, { useContext, Fragment } from 'react';
 import Task from './Task';
 import projectContext from '../../context/projects/projectContext';
 import tasksContext from '../../context/tasks/tasksContext';
-import { CSSTransition, TransitionGroup } from 'react-transition-group';
 
 const TaskList = () => {
   const projectsContext = useContext(projectContext);

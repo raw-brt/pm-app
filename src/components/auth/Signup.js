@@ -1,7 +1,12 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom';
+import alertContext from '../../context/alerts/alertContext';
+import authContext from '../../context/auth/authContext';
 
 const Signup = () => {
+  const { alert, showAlert } = useContext(alertContext);
+  const { handleUserRegistration } = useContext(authContext);
+
   const [credentials, setCredentials] = useState({
     username: '',
     email: '',
@@ -20,16 +25,41 @@ const Signup = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-
     // Form validation
+    if ( 
+             username.trim() === ""
+          || email.trim() === "" 
+          || password.trim() === ""
+          || passwordConfirmation.trim() === ""
+       ) {
+        showAlert('All fields required', 'alerta-error');
+        return;
+       };
 
     // Check password
+    if (password.length < 6) {
+      showAlert('Password should have at least 6 characters', 'alerta-error');
+      return;
+    };
+
+    // Check password confirmation
+    if (password !== passwordConfirmation) {
+      showAlert("Passwords don't match", "alerta-error");
+      return;
+    };
 
     // Pass to action
+    const userData = {
+      username: credentials.username,
+      email: credentials.email,
+      password: credentials.password
+    };
+    handleUserRegistration(userData);
   };
 
   return ( 
     <div className='form-usuario'>
+      { alert ? ( <div className={`alerta ${alert.category}`}>{alert.message}</div> ) : null }
       <div className='contenedor-form sombra-dark'>
         <h1>Create new account</h1>
         <form
@@ -91,6 +121,6 @@ const Signup = () => {
       </div>
     </div>
    );
-}
+};
  
 export default Signup;

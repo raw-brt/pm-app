@@ -14,3 +14,15 @@ export const DELETE_TASK = 'DELETE_TASK';
 export const TASK_STATUS = 'TASK_STATUS';
 export const SELECTED_TASK = 'SELECTED_TASK';
 export const UPDATE_TASK = 'UPDATE_TASK';
+
+// Alerts
+export const SHOW_ALERT = 'SHOW_ALERT';
+export const HIDE_ALERT = 'HIDE_ALERT';
+
+// User
+export const SIGNUP_SUCCESS = 'SIGNUP_SUCCESS';
+export const SIGNUP_ERROR = 'SIGNUP_ERROR';
+export const LOGIN_SUCCESS = 'LOGIN_SUCCESS';
+export const LOGIN_ERROR = 'LOGIN_ERROR';
+export const LOGOUT = 'LOGOUT';
+export const GET_USER = 'GET_USER';

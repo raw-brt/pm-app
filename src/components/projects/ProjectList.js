@@ -9,6 +9,7 @@ const ProjectList = () => {
 
   useEffect(() => {
     getProjects();
+    // eslint-disable-next-line
   }, []);
 
   // Control project list
