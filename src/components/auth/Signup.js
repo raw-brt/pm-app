@@ -21,6 +21,8 @@ const Signup = (props) => {
     passwordConfirmation: ''
   });
 
+  // test-feature comment
+
   const { username, email, password, passwordConfirmation } = credentials;
 
   const handleChange = event => {
