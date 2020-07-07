@@ -1,11 +1,18 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { Link } from 'react-router-dom';
 import alertContext from '../../context/alerts/alertContext';
 import authContext from '../../context/auth/authContext';
 
-const Signup = () => {
+const Signup = (props) => {
   const { alert, showAlert } = useContext(alertContext);
-  const { handleUserRegistration } = useContext(authContext);
+  const { message, isAuthenticated, handleUserRegistration } = useContext(authContext);
+
+  // Handle user authentication, login or duplicated signup
+  useEffect(() => {
+    if (isAuthenticated) props.history.push('/projects');
+    if (message) showAlert(message.msg, message.category);
+
+  }, [message, isAuthenticated, props.history]);
 
   const [credentials, setCredentials] = useState({
     username: '',
@@ -50,10 +57,11 @@ const Signup = () => {
 
     // Pass to action
     const userData = {
-      username: credentials.username,
-      email: credentials.email,
-      password: credentials.password
+      name: username,
+      email: email,
+      password: password
     };
+
     handleUserRegistration(userData);
   };
 

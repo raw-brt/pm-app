@@ -25,16 +25,16 @@ const AuthState = props => {
   const handleUserRegistration = async (userData) => {
     try {
       const apiResponse = await registerUser(userData);
-      // const apiResponse = await axiosClient.post('/api/users', userData)
       console.log(apiResponse);
       dispatch({
         type: SIGNUP_SUCCESS,
         payload: apiResponse.data
       });
     } catch (error) {
-      console.log(error);
+      const alert = { message: error.response.data.msg, category: 'alerta-error' }
       dispatch({
-        type: SIGNUP_ERROR
+        type: SIGNUP_ERROR,
+        payload: alert
       });
     };
   };
