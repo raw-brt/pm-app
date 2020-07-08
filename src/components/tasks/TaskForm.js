@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useContext } from 'react';
 import projectContext from '../../context/projects/projectContext';
 import tasksContext from '../../context/tasks/tasksContext';
-import { v4 as uuid } from 'uuid';
 
 const TaskForm = () => {
   const projectsContext = useContext(projectContext);
@@ -18,10 +17,7 @@ const TaskForm = () => {
    } = taskContext;
 
   const [task, setTask] = useState({
-    id: null,
-    name: '',
-    projectId: null,
-    status: null
+    name: ''
   });
 
   useEffect(() => {
@@ -52,9 +48,7 @@ const TaskForm = () => {
     };
 
     if (selectedTask === null) {  // When selectedTask equals null, the user is adding a new task
-      task.projectId = actualProject[0].id; // Inject selected project ID
-      task.status = false; // Set initial status to false
-      task.id = uuid(); // Assign unique ID to the task
+      task.project = actualProject[0]._id; // Inject selected project ID
       addTask(task); // Update task state with the new task
     } else {
       updateTask(task);

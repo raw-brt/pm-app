@@ -7,7 +7,8 @@ import {
   ADD_PROJECT,
   VALIDATE_PROJECT_FORM,
   ACTUAL_PROJECT,
-  DELETE_PROJECT
+  DELETE_PROJECT,
+  PROJECT_ERROR
 } from "../../types";
 import { createProject, getUserProjects, deleteProject } from "../../services/projects.services";
 
@@ -16,7 +17,8 @@ const ProjectState = (props) => {
     newProjectForm: false, // Controls visibility of New Project form
     formError: false,
     projects: [],
-    actualProject: null
+    actualProject: null,
+    message: null
   };
 
   // Dispatch to execute actions that modify the state
@@ -37,8 +39,15 @@ const ProjectState = (props) => {
         payload: apiGetProjectsResponse.data.projects,
       });
     } catch (error) {
-      console.log(error);
-    }
+      const alert = {
+        msg: 'Something went wrong when trying to delete a project',
+        category: 'alerta-error'
+      };
+      dispatch({
+        type: PROJECT_ERROR,
+        payload: alert
+      });
+    };
   };
 
   const addProject = async (project) => {
@@ -49,8 +58,15 @@ const ProjectState = (props) => {
         payload: apiCreateProjectResponse,
       });
     } catch (error) {
-      console.log(error);
-    }
+      const alert = {
+        msg: 'Something went wrong when trying to delete a project',
+        category: 'alerta-error'
+      };
+      dispatch({
+        type: PROJECT_ERROR,
+        payload: alert
+      });
+    };
   };
 
   const handleFormError = () => {     
@@ -68,14 +84,21 @@ const ProjectState = (props) => {
 
   const handleDeleteProject = async (projectId) => {
     try {
-      const apiResponseDeleteProject = await deleteProject(projectId);
+      await deleteProject(projectId);
       dispatch({
         type: DELETE_PROJECT,
         payload: projectId
       });
     } catch (error) {
-      console.log(error);
-    }
+      const alert = {
+        msg: 'Something went wrong when trying to delete a project',
+        category: 'alerta-error'
+      };
+      dispatch({
+        type: PROJECT_ERROR,
+        payload: alert
+      });
+    };
   };
 
   return (
@@ -86,6 +109,7 @@ const ProjectState = (props) => {
         projects: state.projects,
         formError: state.formError,
         actualProject: state.actualProject,
+        message: state.message,
         // Functions
         toggleForm,
         getProjects,

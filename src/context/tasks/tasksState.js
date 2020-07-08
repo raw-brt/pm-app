@@ -10,40 +10,41 @@ import {
   SELECTED_TASK,
   UPDATE_TASK
 } from "../../types";
+import { createTaskService, getSelectedProjectTasks } from "../../services/tasks.services";
 
 const TasksState = (props) => {
   const initialState = {
-    tasks: [
-      { id: 1, name: "Choose platform", status: true, projectId: 1 },
-      { id: 2, name: "Wireframes", status: true, projectId: 2 },
-      { id: 3, name: "Mockups", status: false, projectId: 3 },
-      { id: 4, name: "First version", status: false, projectId: 4 },
-      { id: 5, name: "Evaluate backend framework", status: true, projectId: 1 },
-      { id: 6, name: "Customer journey", status: true, projectId: 2 },
-      { id: 7, name: "Architecture", status: false, projectId: 3 },
-      { id: 8, name: "Set up Jira", status: true, projectId: 4 },
-      { id: 9, name: "Hire senior backend developer", status: true, projectId: 1 },
-      { id: 10, name: "Mockups", status: false, projectId: 2 },
-    ],
-    selectedProjectTasks: null,
+    selectedProjectTasks: [],
     selectedTask: null,
     taskError: false,
   };
 
   const [state, dispatch] = useReducer(tasksReducer, initialState);
 
-  const getProjectTasks = (projectId) => {
-    dispatch({
-      type: GET_PROJECT_TASKS,
-      payload: projectId
-    });
+  const getProjectTasks = async (project) => {
+    try {
+      const apiResponseGetProjectTasks = await getSelectedProjectTasks(project);
+      console.log(project)
+      dispatch({
+        type: GET_PROJECT_TASKS,
+        payload: apiResponseGetProjectTasks.data.tasks
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const addTask = (task) => {
-    dispatch({
-      type: ADD_TASK,
-      payload: task
-    });
+  const addTask = async (newTask) => {
+    try {
+      const apiResponse = createTaskService(newTask);
+      console.log(apiResponse)
+      dispatch({
+        type: ADD_TASK,
+        payload: apiResponse
+      });
+    } catch (error) {
+      console.log(error)
+    }
   };
 
   const validateTask = () => {
@@ -83,7 +84,6 @@ const TasksState = (props) => {
   return (
     <tasksContext.Provider
       value={{
-        tasks: state.tasks,
         selectedProjectTasks: state.selectedProjectTasks,
         taskError: state.taskError,
         selectedTask : state.selectedTask,
