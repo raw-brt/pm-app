@@ -6,14 +6,14 @@ import tasksContext from '../../context/tasks/tasksContext';
 const TaskList = () => {
   const projectsContext = useContext(projectContext);
   const taskContext = useContext(tasksContext);
-  const { actualProject, deleteProject } = projectsContext;
+  const { actualProject, handleDeleteProject } = projectsContext;
   const { selectedProjectTasks } = taskContext;
 
   if (!actualProject) return <h2>Select a project</h2>;
   const [project] = actualProject;
 
-  const handleDeleteProject = () => {
-    deleteProject(project.id);
+  const deleteProject = () => {
+    handleDeleteProject(project._id);
   };
 
   return (
@@ -32,7 +32,7 @@ const TaskList = () => {
                 <button
                   type='button'
                   className='btn btn-eliminar'
-                  onClick={() => handleDeleteProject()}
+                  onClick={() => deleteProject()}
                 >
                   Delete project &times;
                 </button>

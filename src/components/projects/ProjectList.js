@@ -3,7 +3,7 @@ import Project from './Project';
 import projectContext from '../../context/projects/projectContext';
 
 const ProjectList = () => {
-  // Extract projects from projects state
+
   const projectsContext = useContext(projectContext);
   const { projects, getProjects } = projectsContext;
 
@@ -18,7 +18,7 @@ const ProjectList = () => {
   return ( 
     <ul className='listado-proyectos'>
       {projects.map(project => (
-        <Project key={project.id} project={project} />
+        <Project key={project._id} project={project} />
       ))}
     </ul>
    );

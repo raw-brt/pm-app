@@ -9,15 +9,9 @@ import {
   ACTUAL_PROJECT,
   DELETE_PROJECT
 } from "../../types";
-import { v4 as uuid } from "uuid";
+import { createProject, getUserProjects, deleteProject } from "../../services/projects.services";
 
 const ProjectState = (props) => {
-  const projects = [                        // Dummy content to test
-    { id: 1, name: "Ecommerce" },
-    { id: 2, name: "Log and ROI" },
-    { id: 3, name: "Tesla Cybertruck" },
-  ];
-
   const initialState = {
     newProjectForm: false, // Controls visibility of New Project form
     formError: false,
@@ -35,39 +29,53 @@ const ProjectState = (props) => {
     });
   };
 
-  const getProjects = () => {  // Get existing projects
-    dispatch({
-      type: GET_PROJECTS,
-      payload: projects,
-    });
+  const getProjects = async () => {  // Get existing projects
+    try {
+      const apiGetProjectsResponse = await getUserProjects();
+      dispatch({
+        type: GET_PROJECTS,
+        payload: apiGetProjectsResponse.data.projects,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const addProject = (project) => {   // Add new project
-    project.id = uuid();              // Add unique ID to the project
-    dispatch({                        // Insert project in the state
-      type: ADD_PROJECT,              // Indicate action
-      payload: project,               // Pass as payload the project created in the component
-    });
+  const addProject = async (project) => {
+    try {
+      const apiCreateProjectResponse = await createProject(project);
+      dispatch({                        
+        type: ADD_PROJECT,              
+        payload: apiCreateProjectResponse,
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
-  const handleFormError = () => {     // Handle form validation
+  const handleFormError = () => {     
     dispatch({
       type: VALIDATE_PROJECT_FORM
     });
   };
 
-  const handleActualProject = projectId => {    // Handle selected project
+  const handleActualProject = projectId => {    
     dispatch({
       type: ACTUAL_PROJECT,
       payload: projectId
     });
   };
 
-  const deleteProject = projectId => {    // Delete project
-    dispatch({
-      type: DELETE_PROJECT,
-      payload: projectId
-    });
+  const handleDeleteProject = async (projectId) => {
+    try {
+      const apiResponseDeleteProject = await deleteProject(projectId);
+      dispatch({
+        type: DELETE_PROJECT,
+        payload: projectId
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (
@@ -84,7 +92,7 @@ const ProjectState = (props) => {
         addProject,
         handleFormError,
         handleActualProject,
-        deleteProject
+        handleDeleteProject
       }}
     >
       {props.children}
