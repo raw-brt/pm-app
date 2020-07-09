@@ -24,9 +24,9 @@ const TaskList = () => {
               <Fragment>
                 <h2>{actualProject[0].name}</h2>
                 <ul className='listado-tareas'>
-                  {selectedProjectTasks.length > 0
-                    ? selectedProjectTasks.map(task => <Task key={task.id} task={task} />)
-                    : <li className='tarea'>There are no tasks for this project</li>
+                  {selectedProjectTasks.length === 0 || undefined
+                    ? <li className='tarea'>There are no tasks for this project</li>
+                    : selectedProjectTasks.map(task => <Task key={task._id} task={task} />)
                   }
                 </ul>
                 <button

@@ -6,6 +6,6 @@ export const createTaskService = async (newTask) => {
 };
 
 export const getSelectedProjectTasks = async (project) => {
-  const response = await Axios.get(`/api/tasks/`, { params: project });
+  const response = await Axios.get(`/api/tasks/`, { params: { project } });
   return response;
 };

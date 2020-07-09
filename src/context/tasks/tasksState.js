@@ -16,7 +16,7 @@ const TasksState = (props) => {
   const initialState = {
     selectedProjectTasks: [],
     selectedTask: null,
-    taskError: false,
+    taskError: false
   };
 
   const [state, dispatch] = useReducer(tasksReducer, initialState);
@@ -24,10 +24,10 @@ const TasksState = (props) => {
   const getProjectTasks = async (project) => {
     try {
       const apiResponseGetProjectTasks = await getSelectedProjectTasks(project);
-      console.log(project)
+      console.log(apiResponseGetProjectTasks)
       dispatch({
         type: GET_PROJECT_TASKS,
-        payload: apiResponseGetProjectTasks.data.tasks
+        payload: apiResponseGetProjectTasks.data
       });
     } catch (error) {
       console.log(error);
@@ -37,7 +37,6 @@ const TasksState = (props) => {
   const addTask = async (newTask) => {
     try {
       const apiResponse = createTaskService(newTask);
-      console.log(apiResponse)
       dispatch({
         type: ADD_TASK,
         payload: apiResponse

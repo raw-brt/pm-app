@@ -40,7 +40,6 @@ const TaskForm = () => {
   };
 
   const handleSubmit = event => {
-    console.log(task)
     event.preventDefault();
     if (name.trim() === "") { // Validate input
       validateTask();
@@ -54,7 +53,7 @@ const TaskForm = () => {
       updateTask(task);
     }
     
-    getProjectTasks(actualProject[0].id); // Refresh task list
+    getProjectTasks(actualProject[0]._id); // Refresh task list
     setTask({name: ''}); // Reset form
   };
 

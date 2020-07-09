@@ -3,6 +3,7 @@ import projectContext from '../../context/projects/projectContext';
 import tasksContext from '../../context/tasks/tasksContext';
 
 const Project = ({ project }) => {
+  console.log(project)
   const projectsContext = useContext(projectContext);
   const { handleActualProject } = projectsContext;
   
