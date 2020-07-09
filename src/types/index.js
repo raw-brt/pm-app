@@ -5,6 +5,7 @@ export const ADD_PROJECT = 'ADD_PROJECT';
 export const VALIDATE_PROJECT_FORM = 'VALIDATE_PROJECT_FORM';
 export const ACTUAL_PROJECT = 'ACTUAL_PROJECT';
 export const DELETE_PROJECT = 'DELETE_PROJECT';
+export const PROJECT_ERROR = 'PROJECT_ERROR';
 
 // Task actions that imply task state changes
 export const GET_PROJECT_TASKS = 'GET_PROJECT_TASKS';

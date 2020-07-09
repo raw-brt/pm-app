@@ -13,12 +13,12 @@ export default (state, action) => {
     case GET_PROJECT_TASKS:
       return {
         ...state,
-        selectedProjectTasks: state.tasks.filter(task => task.projectId === action.payload)
+        selectedProjectTasks: action.payload
       }
     case ADD_TASK:
       return {
         ...state,
-        tasks: [...state.tasks, action.payload],
+        selectedProjectTasks: [action.payload, ...state.selectedProjectTasks],
         taskError: false
       }
     case VALIDATE_TASK:
@@ -29,14 +29,14 @@ export default (state, action) => {
     case DELETE_TASK:
       return {
         ...state,
-        tasks: state.tasks.filter(task => task.id !== action.payload),
+        selectedProjectTasks: state.selectedProjectTasks.filter(task => task.id !== action.payload),
         selectedTask: null
       }
     case TASK_STATUS:
     case UPDATE_TASK:
       return {
         ...state,
-        tasks: state.tasks.map(task => task.id === action.payload.id ? action.payload : task)
+        selectedProjectTasks: state.selectedProjectTasks.map(task => task.id === action.payload.id ? action.payload : task)
       }
     case SELECTED_TASK:
       return {

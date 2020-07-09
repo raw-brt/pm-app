@@ -3,6 +3,7 @@ import projectContext from '../../context/projects/projectContext';
 import tasksContext from '../../context/tasks/tasksContext';
 
 const Project = ({ project }) => {
+  console.log(project)
   const projectsContext = useContext(projectContext);
   const { handleActualProject } = projectsContext;
   
@@ -19,7 +20,7 @@ const Project = ({ project }) => {
       <button
         type='button'
         className='btn btn-blank'
-        onClick={() => getProjectData(project.id)}
+        onClick={() => getProjectData(project._id)}
       >
         {project.name}
       </button>

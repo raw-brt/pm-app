@@ -6,14 +6,14 @@ import tasksContext from '../../context/tasks/tasksContext';
 const TaskList = () => {
   const projectsContext = useContext(projectContext);
   const taskContext = useContext(tasksContext);
-  const { actualProject, deleteProject } = projectsContext;
+  const { actualProject, handleDeleteProject } = projectsContext;
   const { selectedProjectTasks } = taskContext;
 
   if (!actualProject) return <h2>Select a project</h2>;
   const [project] = actualProject;
 
-  const handleDeleteProject = () => {
-    deleteProject(project.id);
+  const deleteProject = () => {
+    handleDeleteProject(project._id);
   };
 
   return (
@@ -24,15 +24,15 @@ const TaskList = () => {
               <Fragment>
                 <h2>{actualProject[0].name}</h2>
                 <ul className='listado-tareas'>
-                  {selectedProjectTasks.length > 0
-                    ? selectedProjectTasks.map(task => <Task key={task.id} task={task} />)
-                    : <li className='tarea'>There are no tasks for this project</li>
+                  {selectedProjectTasks.length === 0 || undefined
+                    ? <li className='tarea'>There are no tasks for this project</li>
+                    : selectedProjectTasks.map(task => <Task key={task._id} task={task} />)
                   }
                 </ul>
                 <button
                   type='button'
                   className='btn btn-eliminar'
-                  onClick={() => handleDeleteProject()}
+                  onClick={() => deleteProject()}
                 >
                   Delete project &times;
                 </button>

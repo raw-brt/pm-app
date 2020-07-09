@@ -7,22 +7,18 @@ import {
   ADD_PROJECT,
   VALIDATE_PROJECT_FORM,
   ACTUAL_PROJECT,
-  DELETE_PROJECT
+  DELETE_PROJECT,
+  PROJECT_ERROR
 } from "../../types";
-import { v4 as uuid } from "uuid";
+import { createProject, getUserProjects, deleteProject } from "../../services/projects.services";
 
 const ProjectState = (props) => {
-  const projects = [                        // Dummy content to test
-    { id: 1, name: "Ecommerce" },
-    { id: 2, name: "Log and ROI" },
-    { id: 3, name: "Tesla Cybertruck" },
-  ];
-
   const initialState = {
     newProjectForm: false, // Controls visibility of New Project form
     formError: false,
     projects: [],
-    actualProject: null
+    actualProject: null,
+    message: null
   };
 
   // Dispatch to execute actions that modify the state
@@ -35,39 +31,74 @@ const ProjectState = (props) => {
     });
   };
 
-  const getProjects = () => {  // Get existing projects
-    dispatch({
-      type: GET_PROJECTS,
-      payload: projects,
-    });
+  const getProjects = async () => {  // Get existing projects
+    try {
+      const apiGetProjectsResponse = await getUserProjects();
+      dispatch({
+        type: GET_PROJECTS,
+        payload: apiGetProjectsResponse.data.projects,
+      });
+    } catch (error) {
+      const alert = {
+        msg: 'Something went wrong when trying to delete a project',
+        category: 'alerta-error'
+      };
+      dispatch({
+        type: PROJECT_ERROR,
+        payload: alert
+      });
+    };
   };
 
-  const addProject = (project) => {   // Add new project
-    project.id = uuid();              // Add unique ID to the project
-    dispatch({                        // Insert project in the state
-      type: ADD_PROJECT,              // Indicate action
-      payload: project,               // Pass as payload the project created in the component
-    });
+  const addProject = async (project) => {
+    try {
+      const apiCreateProjectResponse = await createProject(project);
+      dispatch({                        
+        type: ADD_PROJECT,              
+        payload: apiCreateProjectResponse,
+      });
+    } catch (error) {
+      const alert = {
+        msg: 'Something went wrong when trying to delete a project',
+        category: 'alerta-error'
+      };
+      dispatch({
+        type: PROJECT_ERROR,
+        payload: alert
+      });
+    };
   };
 
-  const handleFormError = () => {     // Handle form validation
+  const handleFormError = () => {     
     dispatch({
       type: VALIDATE_PROJECT_FORM
     });
   };
 
-  const handleActualProject = projectId => {    // Handle selected project
+  const handleActualProject = projectId => {    
     dispatch({
       type: ACTUAL_PROJECT,
       payload: projectId
     });
   };
 
-  const deleteProject = projectId => {    // Delete project
-    dispatch({
-      type: DELETE_PROJECT,
-      payload: projectId
-    });
+  const handleDeleteProject = async (projectId) => {
+    try {
+      await deleteProject(projectId);
+      dispatch({
+        type: DELETE_PROJECT,
+        payload: projectId
+      });
+    } catch (error) {
+      const alert = {
+        msg: 'Something went wrong when trying to delete a project',
+        category: 'alerta-error'
+      };
+      dispatch({
+        type: PROJECT_ERROR,
+        payload: alert
+      });
+    };
   };
 
   return (
@@ -78,13 +109,14 @@ const ProjectState = (props) => {
         projects: state.projects,
         formError: state.formError,
         actualProject: state.actualProject,
+        message: state.message,
         // Functions
         toggleForm,
         getProjects,
         addProject,
         handleFormError,
         handleActualProject,
-        deleteProject
+        handleDeleteProject
       }}
     >
       {props.children}
