@@ -3,9 +3,12 @@ import authContext from '../../context/auth/authContext';
 
 const Bar = () => {
   const { user, handleAuthenticateUser, handleLogout } = useContext(authContext);
+  console.log(user)
 
   useEffect(() => {
     handleAuthenticateUser();
+
+    // eslint-disable-next-line
   }, []);
 
   return ( 
@@ -15,7 +18,9 @@ const Bar = () => {
         <button
           className='btn btn-blank cerrar-sesion'
           onClick={() => handleLogout}
-        >Logout</button>
+        >
+          Logout
+        </button>
       </nav>
     </header>
    );

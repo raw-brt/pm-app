@@ -12,6 +12,7 @@ const Signup = (props) => {
     if (isAuthenticated) props.history.push('/projects');
     if (message) showAlert(message.msg, message.category);
 
+    // eslint-disable-next-line
   }, [message, isAuthenticated, props.history]);
 
   const [credentials, setCredentials] = useState({

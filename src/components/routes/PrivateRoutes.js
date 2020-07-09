@@ -7,7 +7,9 @@ const PrivateRoutes = ({ component: Component, ...props }) => {
 
   useEffect(() => {
     handleAuthenticateUser();
-  }, []);
+
+    // eslint-disable-next-line
+  }, [isAuthenticated]);
 
   return ( 
     <Route

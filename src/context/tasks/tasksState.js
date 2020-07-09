@@ -6,11 +6,10 @@ import {
   ADD_TASK,
   VALIDATE_TASK,
   DELETE_TASK,
-  TASK_STATUS,
   SELECTED_TASK,
   UPDATE_TASK
 } from "../../types";
-import { createTaskService, getSelectedProjectTasks } from "../../services/tasks.services";
+import { createTaskService, getSelectedProjectTasks, deleteTaskService, updateTaskService } from "../../services/tasks.services";
 
 const TasksState = (props) => {
   const initialState = {
@@ -24,7 +23,6 @@ const TasksState = (props) => {
   const getProjectTasks = async (project) => {
     try {
       const apiResponseGetProjectTasks = await getSelectedProjectTasks(project);
-      console.log(apiResponseGetProjectTasks)
       dispatch({
         type: GET_PROJECT_TASKS,
         payload: apiResponseGetProjectTasks.data
@@ -52,30 +50,33 @@ const TasksState = (props) => {
     });
   };
 
-  const deleteTask = (taskId) => {
-    dispatch({
-      type: DELETE_TASK,
-      payload: taskId
-    });
+  const deleteTask = async (taskId, projectId) => {
+    try {
+      await deleteTaskService(taskId, projectId);
+      dispatch({
+        type: DELETE_TASK,
+        payload: taskId
+      });
+    } catch (error) {
+      console.log(error);
+    };
   };
 
-  const changeTaskStatus = (task) => {
-    dispatch({
-      type: TASK_STATUS,
-      payload: task
-    });
+  const updateTask = async (task) => {
+    try {
+      const updateTaskResponse = await updateTaskService(task);
+      dispatch({
+        type: UPDATE_TASK,
+        payload: updateTaskResponse.data.updatedTask
+      });
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const setSelectedTask = (task) => {
     dispatch({
       type: SELECTED_TASK,
-      payload: task
-    });
-  };
-
-  const updateTask = (task) => {
-    dispatch({
-      type: UPDATE_TASK,
       payload: task
     });
   };
@@ -90,7 +91,6 @@ const TasksState = (props) => {
         addTask,
         validateTask,
         deleteTask,
-        changeTaskStatus,
         setSelectedTask,
         updateTask
       }}
